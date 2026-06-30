@@ -339,13 +339,6 @@ const sections = [
         background: var(--paper);
         border-bottom: 1px solid var(--line);
       }
-      @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
-        .topbar {
-          background: var(--topbar-bg);
-          -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
-        }
-      }
       .nav-right { display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); }
       .theme-toggle {
         background: var(--surface); border: 1.5px solid var(--line); border-radius: 9px;
