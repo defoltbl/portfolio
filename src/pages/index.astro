@@ -312,7 +312,7 @@ const sections = [
 
       * { box-sizing: border-box; margin: 0; padding: 0; }
 
-      html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+      html { scroll-behavior: smooth; scroll-padding-top: 16px; }
 
       body {
         background: var(--paper);
@@ -333,14 +333,10 @@ const sections = [
 
       /* ---------- Top bar ---------- */
       .topbar {
-        position: sticky; top: 0; z-index: 50;
         display: flex; align-items: center; justify-content: space-between;
         padding: 14px clamp(20px, 5vw, 48px);
         background: var(--paper);
         border-bottom: 1px solid var(--line);
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-        isolation: isolate;
       }
       .nav-right { display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); }
       .theme-toggle {
