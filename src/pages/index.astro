@@ -336,9 +336,15 @@ const sections = [
         position: sticky; top: 0; z-index: 50;
         display: flex; align-items: center; justify-content: space-between;
         padding: 14px clamp(20px, 5vw, 48px);
-        background: var(--topbar-bg);
-        backdrop-filter: blur(10px);
+        background: var(--paper);
         border-bottom: 1px solid var(--line);
+      }
+      @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+        .topbar {
+          background: var(--topbar-bg);
+          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+        }
       }
       .nav-right { display: flex; align-items: center; gap: clamp(14px, 2.5vw, 28px); }
       .theme-toggle {
