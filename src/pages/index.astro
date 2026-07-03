@@ -5,6 +5,15 @@ const mailto = `mailto:${email}?subject=Junior%20Software%20Developer%20role&bod
 
 const projects = [
   {
+    name: "Local RAG Assistant",
+    tag: "Local document Q&A · FastAPI, Ollama & React",
+    categories: ["Backend", "AI/ML"],
+    source: "https://github.com/defoltbl/local-rag-assistant",
+    body:
+      "A full-stack retrieval-augmented generation service that answers questions about PDF documents with page-cited, token-streamed responses, running entirely on-device via Ollama with no external API calls. It chunks and embeds PDFs, runs cosine-similarity search in PostgreSQL/pgvector, and sits behind a provider-agnostic LLM layer so the model can be swapped without code changes. Ships with a React frontend and a one-command Docker Compose stack, tested in GitHub Actions CI.",
+    stack: ["Python", "FastAPI", "Ollama", "pgvector", "PostgreSQL", "React", "Docker", "GitHub Actions"],
+  },
+  {
     name: "Expense Tracker API",
     tag: "Production REST backend on Azure",
     categories: ["Backend"],
@@ -46,11 +55,12 @@ const projects = [
 const projectFilters = ["All", "Backend", "AI/ML", "Mobile", "Games"];
 
 const skills = [
-  { group: "Backend & Cloud", items: ["Kotlin", "Ktor", "REST APIs", "JWT", "BCrypt", "Docker", "Azure", "PostgreSQL", "GitHub Actions"] },
+  { group: "Backend & Cloud", items: ["Kotlin", "Ktor", "FastAPI", "REST APIs", "JWT", "BCrypt", "Docker", "Docker Compose", "Azure", "PostgreSQL", "GitHub Actions"] },
   { group: "Languages", items: ["Python", "Kotlin", "SQL"] },
-  { group: "AI / Machine Learning", items: ["PyTorch", "OpenAI Gym", "PPO", "DQN", "A2C", "Behavioral Cloning", "CNNs"] },
+  { group: "AI / Machine Learning", items: ["PyTorch", "OpenAI Gym", "PPO", "DQN", "A2C", "Behavioral Cloning", "CNNs", "RAG", "LLMs", "Ollama", "Embeddings"] },
+  { group: "Frontend", items: ["React", "JavaScript", "HTML/CSS", "Vite"] },
   { group: "Mobile / Android", items: ["Android SDK", "Firebase", "MVVM"] },
-  { group: "Databases & Tools", items: ["PostgreSQL", "PL/pgSQL", "Git", "Linux"] },
+  { group: "Databases & Tools", items: ["PostgreSQL", "pgvector", "PL/pgSQL", "Git", "Linux"] },
 ];
 
 const experience = [
@@ -153,9 +163,11 @@ const sections = [
             I work across Python, Kotlin and SQL, with a focus on backend, cloud and AI/ML
             engineering. I recently built and deployed a production-style REST API in Kotlin and
             Ktor on Microsoft Azure – JWT auth, BCrypt, refresh tokens, rate limiting, PostgreSQL,
-            Docker and a GitHub Actions CI pipeline. My MSc thesis, HYBRIDEA, designed a hybrid
-            Behavioral Cloning + PPO agent for NPC behaviour in Ms. Pac-Man, published and presented
-            at international conferences in Odesa (2025) and Sofia, Bulgaria (2026).
+            Docker and a GitHub Actions CI pipeline – and a fully local RAG document assistant that
+            answers questions about PDFs with streamed, page-cited responses using FastAPI, Ollama
+            and pgvector. My MSc thesis, HYBRIDEA, designed a hybrid Behavioral Cloning + PPO agent
+            for NPC behaviour in Ms. Pac-Man, published and presented at international conferences in
+            Odesa (2025) and Sofia, Bulgaria (2026).
           </p>
           <p>
             I'm comfortable working independently across the full build cycle – design,
