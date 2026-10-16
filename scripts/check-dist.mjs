@@ -53,7 +53,7 @@ for (const file of files) {
   }
   if (!/<title>[^<]+<\/title>/.test(html)) problems.push(`${page}: no <title>`);
   if (!/<meta name="description" content="[^"]+"/.test(html)) problems.push(`${page}: no meta description`);
-  if (/localhost|127\.0\.0\.1/.test(html)) problems.push(`${page}: a link to localhost`);
+  if (/\s(?:href|src)="[^"]*(?:localhost|127\.0\.0\.1)/.test(html)) problems.push(`${page}: a link to localhost`);
   for (const m of html.matchAll(/\shref="([^"]+)"/g)) {
     const href = m[1];
     if (/^(https?:|mailto:|tel:|data:)/.test(href) || href.startsWith("//")) continue;
