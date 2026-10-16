@@ -50,12 +50,12 @@ export const sections: [id: string, label: string][] = [
 ];
 
 export const skills: SkillGroup[] = [
-  { group: "Backend & Cloud", items: ["Kotlin", "Ktor", "FastAPI", "REST APIs", "JWT", "BCrypt", "Docker", "Docker Compose", "Azure", "PostgreSQL", "GitHub Actions"] },
-  { group: "Languages", items: ["Python", "Kotlin", "SQL"] },
-  { group: "AI / Machine Learning", items: ["PyTorch", "OpenAI Gym", "PPO", "DQN", "A2C", "Behavioral Cloning", "CNNs", "RAG", "LLMs", "Ollama", "Embeddings"] },
-  { group: "Frontend", items: ["React", "JavaScript", "HTML/CSS", "Vite"] },
-  { group: "Mobile / Android", items: ["Android SDK", "Firebase", "MVVM"] },
-  { group: "Databases & Tools", items: ["PostgreSQL", "pgvector", "PL/pgSQL", "Git", "Linux"] },
+  { group: "Languages", items: ["Python", "Kotlin", "SQL", "Swift", "JavaScript"] },
+  { group: "Backend & Cloud", items: ["Ktor", "FastAPI", "REST APIs", "JWT", "BCrypt", "Docker", "Docker Compose", "Azure", "GitHub Actions"] },
+  { group: "AI / Machine Learning", items: ["PyTorch", "OpenAI Gym", "PPO", "DQN", "A2C", "Behavioral Cloning", "CNNs", "RAG", "LLMs", "Claude Agent SDK", "Ollama", "Embeddings"] },
+  { group: "Desktop & Mobile", items: ["Qt Quick / PySide6", "SwiftUI / WidgetKit", "PyInstaller", "Android SDK", "Firebase", "MVVM"] },
+  { group: "Frontend", items: ["React", "Astro", "HTML/CSS", "Vite"] },
+  { group: "Data, Security & Quality", items: ["PostgreSQL", "pgvector", "PL/pgSQL", "SQLite", "AES-256-GCM", "macOS Keychain", "pytest", "Git", "Linux"] },
 ];
 
 export const experience: Entry[] = [

@@ -20,7 +20,7 @@ const projects = defineCollection({
     liveLink: z.string().default("Live"),
     order: z.number().int(),
     caseStudy: z.boolean().default(false),
-    facts: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
+    facts: z.array(z.object({ label: z.string(), value: z.string() }).strict()).default([]),   // strict: a stray key (an unquoted comma in YAML) is an error
   }),
 });
 

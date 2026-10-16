@@ -1,0 +1,55 @@
+---
+// A project's case study: its own page, from the Markdown body of a project with `caseStudy: true`.
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import { person } from "../../data/profile";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects", (p: CollectionEntry<"projects">) => p.data.caseStudy);
+  return projects.map((project: CollectionEntry<"projects">) => ({ params: { id: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+const { project } = Astro.props;
+const p = project.data;
+const { Content } = await render(project);
+---
+
+<Base title={`${p.name} – case study · ${person.name}`} description={p.summary}>
+  <article class="case">
+    <a class="back" href="/#projects">← All projects</a>
+    <header class="case-head">
+      <p class="kicker">case study</p>
+      <h1 transition:name={`project-${project.id}`}>{p.name}</h1>
+      <p class="lede">{p.tag}</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href={p.source} target="_blank" rel="noopener">Source on GitHub ↗</a>
+        {p.live && <a class="btn" href={p.live} target="_blank" rel="noopener">{p.liveLink} ↗</a>}
+      </div>
+    </header>
+
+    {p.facts.length > 0 && (
+      <dl class="facts">
+        {p.facts.map((f) => (
+          <div><dt>{f.label}</dt><dd>{f.value}</dd></div>
+        ))}
+      </dl>
+    )}
+
+    <ul class="stack case-stack" aria-label="Tech stack">
+      {p.stack.map((s) => <li>{s}</li>)}
+    </ul>
+
+    <div class="case-body">
+      <Content />
+    </div>
+
+    <footer class="case-foot">
+      <a class="btn" href="/#projects">← All projects</a>
+      <a class="btn" href={p.source} target="_blank" rel="noopener">Source on GitHub ↗</a>
+    </footer>
+  </article>
+</Base>
