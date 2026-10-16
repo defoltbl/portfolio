@@ -39,7 +39,7 @@ Azure, a local RAG assistant, and AI/ML research presented at two international 
 - **Dark mode** – remembers the choice, follows the system preference on first visit, survives page transitions
 - **Project filtering** – by category, with an animated crossfade
 - **Security headers** – strict Content-Security-Policy (no inline scripts), HSTS and related headers via `vercel.json`
-- **Checked before it ships** – `npm run verify` type-checks, builds, and fails on an inline script, a broken link or anchor, an image without alt text, or a page without title or description
+- **Checked before it ships** – `npm run verify` type-checks, builds, and fails on an inline script, a broken link or anchor, an image without alt text, or a page without title or description; a headless-Chrome check then plays the page transitions and the project filter frame by frame and fails on any blink
 
 ## Project structure
 
@@ -60,6 +60,7 @@ Azure, a local RAG assistant, and AI/ML research presented at two international 
 │   ├── styles/global.css
 │   └── assets/                      # screenshots and diagrams (optimised at build)
 ├── scripts/check-dist.mjs           # checks the built pages
+├── scripts/check-motion.mjs         # checks transitions and the filter frame by frame
 ├── .github/workflows/ci.yml         # verify on every push and pull request
 ├── astro.config.mjs                 # scripts are never inlined (CSP)
 └── vercel.json                      # security headers
@@ -75,7 +76,7 @@ Requires [Node.js](https://nodejs.org) 22.22 or newer.
 ```bash
 npm install
 npm run dev       # http://localhost:4321
-npm run verify    # type check, production build, built-site checks
+npm run verify    # type check, production build, built-site and motion checks
 npm run preview   # preview the production build
 ```
 

@@ -304,10 +304,14 @@ a:focus-visible, .btn:focus-visible {
 .card h3 a:hover { color: var(--accent); }
 
 /* ---------- Motion: subtle and purposeful ---------- */
-/* The project filter: matching cards show at once with a very short fade. */
+/* The project filter: one short, smooth motion (projects-filter.ts uses View Transitions). */
 .card[hidden] { display: none; }
-@keyframes card-in { from { opacity: 0; } to { opacity: 1; } }
-.card.filtered-in { animation: card-in 0.16s ease-out; }
+html.filtering::view-transition-group(*),
+html.filtering::view-transition-old(*),
+html.filtering::view-transition-new(*) { animation-duration: 0.26s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+/* Only the cards move; the rest of the page (filter buttons, sections below) changes without a cross-fade. */
+html.filtering::view-transition-old(root) { animation: none; opacity: 0; }
+html.filtering::view-transition-new(root) { animation: none; }
 /* Hidden only when scripts run (html.js), so the page never stays empty without JavaScript. */
 html.js .reveal { opacity: 0; transform: translateY(14px); }
 html.js .reveal.is-visible {
@@ -315,6 +319,7 @@ html.js .reveal.is-visible {
   transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .grid .card.reveal.is-visible:nth-child(2n) { transition-delay: 0.06s; }
+html.settling .reveal { transition: none !important; }
 
 /* The hero arrives once, line by line. */
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }

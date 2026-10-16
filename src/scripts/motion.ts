@@ -17,6 +17,16 @@ document.addEventListener("click", (event) => {
   history.pushState(null, "", url.hash);
 });
 
+// After an in-site navigation the visitor has already seen the site: every section is shown at once.
+// Fading them in again would leave the new page empty for a moment, which reads as a flash.
+document.addEventListener("astro:after-swap", () => {
+  const root = document.documentElement;
+  root.classList.add("settling");
+  document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => el.classList.add("is-visible"));
+  void root.offsetHeight; // apply the shown state while transitions are off
+  requestAnimationFrame(() => root.classList.remove("settling"));
+});
+
 onPage(() => {
   const items = Array.from(document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)"));
   if (reduced() || !("IntersectionObserver" in window)) {
