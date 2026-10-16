@@ -25,7 +25,7 @@ the CV and a letter, type the same details into each company's form, keep a list
 applications, and read the replies. I wanted a tool that does the repetitive part and leaves
 every decision to the person – and that never sends anything in their name.
 
-![The main window: five agents on an assembly line, the usage of the Claude subscription, and what comes up next](../../assets/jobhelper/02_main.png)
+![The main window: five agents on an assembly line, the usage of the Claude subscription, and what comes up next](../../assets/jobhelper/02_main.png "window")
 
 ## What it does
 
@@ -40,7 +40,7 @@ every decision to the person – and that never sends anything in their name.
 - **An assistant that fills forms.** It writes into the empty fields of an application form in
   the person's own browser, and never presses Submit.
 
-![The pipeline: five agents, and what each one keeps](../../assets/jobhelper/code_pipeline.png)
+![The pipeline: five agents, and what each one keeps](../../assets/jobhelper/code_pipeline.png "diagram")
 
 ## Key decisions
 
@@ -49,26 +49,26 @@ guarantee. Every adapted CV, letter and form answer is checked after the model w
 term of the posting stated as experience that the CV does not support is sent back once, and
 whatever remains is shown to the person instead of being silently removed.
 
-![How a text is kept inside what the CV shows](../../assets/jobhelper/code_honesty.png)
+![How a text is kept inside what the CV shows](../../assets/jobhelper/code_honesty.png "diagram")
 
 **A free request is decided by Claude but carried out by the app.** The assistant's answer
 comes back as text or as up to three actions from a fixed list. The app checks them, asks the
 person in its own words, and changes nothing before a yes. Tests with forged replies confirm
 that none of them can change data.
 
-![Talking to the assistant: a question, then a change that waits for a yes](../../assets/jobhelper/44_assistant_talk.png)
+![Talking to the assistant: a question, then a change that waits for a yes](../../assets/jobhelper/44_assistant_talk.png "natural")
 
 **Filling a form without risk.** Small scripts list the fields without reading their values,
 plain code decides what each field is, and the values travel as data, never as code. The one
 script that presses anything accepts five kinds of element and re-reads their words first.
 
-![How the assistant fills in a form](../../assets/jobhelper/code_fill.png)
+![How the assistant fills in a form](../../assets/jobhelper/code_fill.png "diagram")
 
 **Private by design.** The job list, settings and replies are encrypted with AES-256-GCM, with
 the key in the macOS Keychain; rule files are signed, so a change made outside the app must be
 approved. The mailbox is only ever read.
 
-![How the data is kept safe](../../assets/jobhelper/code_safety.png)
+![How the data is kept safe](../../assets/jobhelper/code_safety.png "diagram")
 
 ## Engineering
 
@@ -84,4 +84,4 @@ approved. The mailbox is only ever read.
   itself and a test area of real forms in a real browser engine. GitHub Actions runs them on
   macOS after every push, and a pre-push check stops anything private from being published.
 
-![The desktop widget (medium size), with invented sample data](../../assets/jobhelper/widget_medium.png)
+![The desktop widget (medium size), with invented sample data](../../assets/jobhelper/widget_medium.png "natural")

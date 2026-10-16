@@ -1,7 +1,11 @@
 import { defineConfig } from 'astro/config';
+import rehypeFigures from './src/plugins/rehype-figures.mjs';
 
 export default defineConfig({
   site: 'https://andrii-maksymenko.com',
+  markdown: {
+    rehypePlugins: [rehypeFigures],       // framed, numbered figures in case studies
+  },
   vite: {
     build: {
       // Never inline a script or a small asset: the Content-Security-Policy in vercel.json

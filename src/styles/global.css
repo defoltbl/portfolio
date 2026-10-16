@@ -276,11 +276,29 @@ a:focus-visible, .btn:focus-visible {
   font-family: var(--mono); font-size: 0.86em; background: var(--surface);
   border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px;
 }
-.case-body p:has(> img) { max-width: none; margin: 28px 0 36px; }
-.case-body img {
-  display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line);
-  background: var(--surface); box-shadow: 0 24px 60px -36px rgba(20, 24, 31, 0.45);
+/* Figures: framed and numbered (src/plugins/rehype-figures.mjs). */
+.case-body { counter-reset: fig; }
+.shot { counter-increment: fig; margin: 36px 0 48px; }
+.shot-frame {
+  border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: var(--surface);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 32px 70px -42px rgba(10, 12, 16, 0.75);
 }
+.shot img { display: block; width: 100%; height: auto; }
+.shot-bar {
+  display: flex; align-items: center; gap: 7px; height: 32px; padding: 0 13px;
+  border-bottom: 1px solid var(--line); background: var(--paper);
+}
+.shot-bar span { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+.shot-bar span:nth-child(2) { background: #febc2e; }
+.shot-bar span:nth-child(3) { background: #28c840; }
+.shot-diagram .shot-frame { background: #ffffff; padding: clamp(10px, 2.4vw, 22px); }
+.shot-natural .shot-frame { border: none; background: transparent; box-shadow: none; max-width: 560px; margin: 0 auto; }
+.shot-natural img { border-radius: 16px; }
+.shot figcaption {
+  margin-top: 14px; text-align: center; font-family: var(--mono); font-size: 0.78rem; color: var(--muted);
+  max-width: 62ch; margin-inline: auto; text-wrap: balance;
+}
+.shot figcaption::before { content: "Fig. " counter(fig) " · "; color: var(--accent); }
 .case-foot { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
 .card h3 a { text-decoration: none; }
 .card h3 a:hover { color: var(--accent); }

@@ -1,7 +1,7 @@
 // Checks the built site in dist/ before it is published. Fails (exit 1) when a page has:
 //  - an inline <script> (the Content-Security-Policy in vercel.json allows scripts from 'self' only),
 //  - an internal link or anchor that leads nowhere,
-//  - an image without alt text,
+//  - an image without alt text, or a figure without a caption,
 //  - no <title> or no meta description,
 //  - a link to localhost.
 // Run: npm run verify (type check, build, then this).
@@ -47,6 +47,9 @@ for (const file of files) {
   }
   for (const m of html.matchAll(/<img\b([^>]*)>/g)) {
     if (!/\balt="[^"]+"/.test(m[1])) problems.push(`${page}: an image without alt text`);
+  }
+  for (const m of html.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/g)) {
+    if (!/<figcaption>[^<]+<\/figcaption>/.test(m[1])) problems.push(`${page}: a figure without a caption`);
   }
   if (!/<title>[^<]+<\/title>/.test(html)) problems.push(`${page}: no <title>`);
   if (!/<meta name="description" content="[^"]+"/.test(html)) problems.push(`${page}: no meta description`);
