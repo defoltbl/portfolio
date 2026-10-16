@@ -1,7 +1,8 @@
 // Content collections: one Markdown file per project in src/content/projects.
 // The front matter is checked against this schema at build time; a project with
 // `caseStudy: true` also gets its own page at /projects/<file name>.
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 export const CATEGORIES = ["Desktop", "Backend", "AI/ML", "Mobile", "Games"] as const;
@@ -14,13 +15,13 @@ const projects = defineCollection({
     summary: z.string(),
     categories: z.array(z.enum(CATEGORIES)).min(1),
     stack: z.array(z.string()).min(1),
-    source: z.string().url(),
-    live: z.string().url().optional(),
+    source: z.url(),
+    live: z.url().optional(),
     liveLabel: z.string().optional(),
     liveLink: z.string().default("Live"),
     order: z.number().int(),
     caseStudy: z.boolean().default(false),
-    facts: z.array(z.object({ label: z.string(), value: z.string() }).strict()).default([]),   // strict: a stray key (an unquoted comma in YAML) is an error
+    facts: z.array(z.strictObject({ label: z.string(), value: z.string() })).default([]),   // strict: a stray key (an unquoted comma in YAML) is an error
   }),
 });
 
