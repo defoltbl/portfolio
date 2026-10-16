@@ -11,7 +11,7 @@ const { entries, orgInline = false } = Astro.props;
 
 <div class="timeline">
   {entries.map((e) => (
-    <div class="entry">
+    <div class="entry reveal">
       <div class="entry-meta">{e.when}</div>
       <div class="entry-body">
         {orgInline

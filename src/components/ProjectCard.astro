@@ -10,9 +10,9 @@ const p = project.data;
 const page = p.caseStudy ? `/projects/${project.id}/` : undefined;
 ---
 
-<article class="card" data-categories={p.categories.join(",")}>
+<article class="card reveal" data-categories={p.categories.join(",")}>
   <div class="card-head">
-    <h3>{page ? <a href={page}>{p.name}</a> : p.name}</h3>
+    <h3 transition:name={page ? `project-${project.id}` : undefined}>{page ? <a href={page}>{p.name}</a> : p.name}</h3>
     {p.live && <span class="status"><span class="dot"></span>{p.liveLabel ?? "Live"}</span>}
   </div>
   <p class="card-tag">{p.tag}</p>

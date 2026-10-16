@@ -283,3 +283,40 @@ a:focus-visible, .btn:focus-visible {
 .case-foot { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--line); }
 .card h3 a { text-decoration: none; }
 .card h3 a:hover { color: var(--accent); }
+
+/* ---------- Motion: subtle and purposeful ---------- */
+/* Hidden only when scripts run (html.js), so the page never stays empty without JavaScript. */
+html.js .reveal { opacity: 0; transform: translateY(14px); }
+html.js .reveal.is-visible {
+  opacity: 1; transform: none;
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.grid .card.reveal.is-visible:nth-child(2n) { transition-delay: 0.06s; }
+
+/* The hero arrives once, line by line. */
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.hero h1, .hero .lede, .hero .cta-row, .case-head > * { animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero .lede, .case-head .lede { animation-delay: 0.08s; }
+.hero .cta-row, .case-head .cta-row { animation-delay: 0.16s; }
+
+/* A sticky top bar with a soft blur, and the section being read. */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--topbar-bg);
+  -webkit-backdrop-filter: saturate(160%) blur(10px); backdrop-filter: saturate(160%) blur(10px);
+}
+html { scroll-padding-top: 76px; }
+.topbar nav a[aria-current="true"] { color: var(--ink); }
+.topbar nav a { position: relative; }
+.topbar nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1.5px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease;
+}
+.topbar nav a:hover::after, .topbar nav a[aria-current="true"]::after { transform: scaleX(1); }
+
+/* Page transitions: a short crossfade; the project title glides into the case study heading. */
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.28s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal { opacity: 1; transform: none; }
+}
