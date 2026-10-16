@@ -4,6 +4,19 @@ import { onPage } from "./on-page";
 
 const reduced = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// Links to a section of the same page glide there; a link from another page jumps straight to it.
+document.addEventListener("click", (event) => {
+  const link = (event.target as Element | null)?.closest?.("a[href]") as HTMLAnchorElement | null;
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return;
+  const url = new URL(link.href, location.href);
+  if (url.pathname !== location.pathname || !url.hash) return;
+  const target = document.getElementById(decodeURIComponent(url.hash.slice(1)));
+  if (!target) return;
+  event.preventDefault();
+  target.scrollIntoView({ behavior: reduced() ? "auto" : "smooth", block: "start" });
+  history.pushState(null, "", url.hash);
+});
+
 onPage(() => {
   const items = Array.from(document.querySelectorAll<HTMLElement>(".reveal:not(.is-visible)"));
   if (reduced() || !("IntersectionObserver" in window)) {

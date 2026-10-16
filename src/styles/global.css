@@ -31,7 +31,9 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; scroll-padding-top: 16px; }
+/* No page-wide smooth scrolling: arriving at /#projects from a case study must jump there at once,
+   not show the top first. Links within the page scroll smoothly (src/scripts/motion.ts). */
+html { scroll-padding-top: 16px; }
 
 body {
   background: var(--paper);
@@ -151,7 +153,6 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(20px, 5vw, 48px)
 .filter-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
-.card.is-hidden { opacity: 0; transform: translateY(18px) scale(0.97); pointer-events: none; }
 .card {
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
   padding: 28px; display: flex; flex-direction: column;
@@ -285,6 +286,10 @@ a:focus-visible, .btn:focus-visible {
 .card h3 a:hover { color: var(--accent); }
 
 /* ---------- Motion: subtle and purposeful ---------- */
+/* The project filter: matching cards show at once with a very short fade. */
+.card[hidden] { display: none; }
+@keyframes card-in { from { opacity: 0; } to { opacity: 1; } }
+.card.filtered-in { animation: card-in 0.16s ease-out; }
 /* Hidden only when scripts run (html.js), so the page never stays empty without JavaScript. */
 html.js .reveal { opacity: 0; transform: translateY(14px); }
 html.js .reveal.is-visible {
