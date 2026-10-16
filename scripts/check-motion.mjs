@@ -3,7 +3,7 @@
 //  - a page transition changes the page background in any frame (in dark mode that is a white blink),
 //  - project cards on screen are not fully visible after "All projects" brings the visitor back,
 //  - the category filter dims a shown card in any frame, or leaves view-transition names behind.
-// Chrome: $CHROME, else the macOS app, else `google-chrome` on the PATH.
+// Chrome: $CHROME, else the macOS app, else `google-chrome` on the PATH (as on GitHub's Ubuntu runners).
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 import { existsSync, mkdtempSync, readFileSync, statSync } from "node:fs";
@@ -24,19 +24,44 @@ const base = `http://127.0.0.1:${server.address().port}`;
 
 const mac = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const binary = process.env.CHROME || (existsSync(mac) ? mac : "google-chrome");
-const port = 9300 + Math.floor(Math.random() * 600);
-const args = ["--headless=new", "--no-first-run", `--user-data-dir=${mkdtempSync(join(tmpdir(), "motion-"))}`, `--remote-debugging-port=${port}`,
-  "--window-size=1440,900", ...(process.platform === "linux" ? ["--no-sandbox"] : []), "about:blank"];
-const chrome = spawn(binary, args, { stdio: "ignore" });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Starts Chrome on a free port it picks itself (written to DevToolsActivePort in its profile) and returns
+// the page to drive. A slow first start on a CI machine gets 30 s; on failure, Chrome's own error is shown.
+async function launch() {
+  const profile = mkdtempSync(join(tmpdir(), "motion-"));
+  const linux = process.platform === "linux" ? ["--no-sandbox", "--disable-dev-shm-usage", "--disable-gpu"] : [];
+  const proc = spawn(binary, ["--headless=new", "--no-first-run", "--no-default-browser-check", `--user-data-dir=${profile}`,
+    "--remote-debugging-port=0", "--window-size=1440,900", ...linux, "about:blank"], { stdio: ["ignore", "ignore", "pipe"] });
+  let stderr = "", exited = null;
+  proc.stderr.on("data", (d) => (stderr = (stderr + d).slice(-1500)));
+  proc.on("error", (e) => (exited = e.message));
+  proc.on("exit", (code) => (exited ??= `exited with code ${code}`));
+  for (let waited = 0; waited < 30000 && !exited; waited += 250) {
+    await sleep(250);
+    const file = join(profile, "DevToolsActivePort");
+    if (!existsSync(file)) continue;
+    const port = readFileSync(file, "utf8").split("\n")[0].trim();
+    try {
+      const page = (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).find((t) => t.type === "page");
+      if (page) return { proc, page };
+    } catch {}
+  }
+  proc.kill();
+  throw new Error(`Chrome did not start (${binary}): ${exited ?? "no answer in 30 s"}${stderr.trim() ? `\n    ${stderr.trim().split("\n").slice(-3).join("\n    ")}` : ""}`);
+}
+
 const problems = [];
+let chrome;
 try {
   let target;
-  for (let i = 0; i < 75 && !target; i++) {
-    await sleep(200);
-    try { target = (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).find((t) => t.type === "page"); } catch {}
+  for (let attempt = 1; !target; attempt++) {
+    try {
+      ({ proc: chrome, page: target } = await launch());
+    } catch (error) {
+      if (attempt === 2) throw error;
+    }
   }
-  if (!target) throw new Error(`Chrome did not start (${binary})`);
   const ws = new WebSocket(target.webSocketDebuggerUrl);
   await new Promise((r) => ws.addEventListener("open", r));
   let id = 0;
@@ -94,7 +119,7 @@ try {
 } catch (error) {
   problems.push(String(error?.message ?? error));
 } finally {
-  chrome.kill();
+  chrome?.kill();
   server.close();
 }
 
