@@ -1,0 +1,26 @@
+---
+// Experience, education and publications share one layout: the date on the left, the entry on the right.
+import type { Entry } from "../data/profile";
+
+interface Props {
+  entries: Entry[];
+  orgInline?: boolean;
+}
+const { entries, orgInline = false } = Astro.props;
+---
+
+<div class="timeline">
+  {entries.map((e) => (
+    <div class="entry">
+      <div class="entry-meta">{e.when}</div>
+      <div class="entry-body">
+        {orgInline
+          ? <h3>{e.title} <span class="org">· {e.org}</span></h3>
+          : <><h3>{e.title}</h3><p class="org-line">{e.org}</p></>}
+        {e.note && <p class="pub-note">{e.note}</p>}
+        {e.body && <p>{e.body}</p>}
+        {e.url && <a class="inline-link" href={e.url} target="_blank" rel="noopener">Read publication ↗</a>}
+      </div>
+    </div>
+  ))}
+</div>
