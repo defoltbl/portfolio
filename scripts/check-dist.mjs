@@ -18,6 +18,9 @@ function pages(dir) {
   });
 }
 
+// Addresses that vercel.json rewrites to another site (the CV): valid links though no file in dist/ has them.
+const rewritten = new Set((JSON.parse(readFileSync(new URL("../vercel.json", import.meta.url), "utf8")).rewrites || []).map((r) => r.source));
+
 const ids = new Map();
 const files = pages(dist);
 for (const file of files) {
@@ -57,6 +60,7 @@ for (const file of files) {
   for (const m of html.matchAll(/\shref="([^"]+)"/g)) {
     const href = m[1];
     if (/^(https?:|mailto:|tel:|data:)/.test(href) || href.startsWith("//")) continue;
+    if (rewritten.has(href.split("#")[0])) continue;
     const why = target(file, href);
     if (why) problems.push(`${page}: ${href} – ${why}`);
   }
