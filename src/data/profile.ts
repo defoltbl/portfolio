@@ -27,7 +27,7 @@ export const person = {
   lede: "MSc Computer Science (Honours) · published at two international conferences.",
   location: "Prague / Mladá Boleslav, Czech Republic",
   email: "andrii.maksymenko.d@gmail.com",
-  cv: "/AndriiMaksymenko_CV_EN.pdf",
+  cv: "/cv",                                        // served from the private cv repository (vercel.json rewrite)
   site: "https://andrii-maksymenko.com",
 };
 

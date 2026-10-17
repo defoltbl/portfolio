@@ -52,7 +52,6 @@ API deployed on Azure, a hybrid RL/IL game-AI agent presented at two internation
 
 ```
 ├── public/
-│   ├── AndriiMaksymenko_CV_EN.pdf   # public (no-phone) CV, linked from the site
 │   ├── favicon.svg, og.png          # icon and social share preview
 │   └── theme-init.js                # sets the theme before first paint and before each page swap
 ├── src/
@@ -72,7 +71,7 @@ API deployed on Azure, a hybrid RL/IL game-AI agent presented at two internation
 ├── .github/workflows/ci.yml         # verify on every push and pull request
 ├── docs/                            # README screenshots (not deployed)
 ├── astro.config.mjs                 # scripts are never inlined (CSP)
-└── vercel.json                      # security headers
+└── vercel.json                      # security headers; /cv rewrites to the CV (a private repository with its own Vercel project)
 ```
 
 To add a project, add a Markdown file to `src/content/projects/`; with `caseStudy: true`, its body
